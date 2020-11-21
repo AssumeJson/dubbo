@@ -125,6 +125,9 @@ public class ExtensionLoader<T> {
     /**
      * 缓存的拓展名与拓展类的映射。
      *
+     * 扩展类为key
+     * 前缀为value
+     *
      * 和 {@link #cachedClasses} 的 KV 对调。
      * 通过 {@link #loadExtensionClasses} 加载
      */
@@ -658,7 +661,7 @@ public class ExtensionLoader<T> {
             }
 
             synchronized (cachedAdaptiveInstance) {
-                instance = cachedAdaptiveInstance.get();
+                instance = cachedAdaptiveInstance.get(); // 双重检查
                 if (instance == null) {
                     try {
                         instance = createAdaptiveExtension();
@@ -975,7 +978,7 @@ public class ExtensionLoader<T> {
 
             String[] names = NAME_SEPARATOR.split(name);
             if (ArrayUtils.isNotEmpty(names)) {
-                cacheActivateClass(clazz, names[0]);    // 缓存 @Activate 到 `cachedActivates` 。
+                cacheActivateClass(clazz, names[0]);    // 查看拓展类是否使用@Active注解，使用了就缓存 @Activate 到 `cachedActivates` 。
                 for (String n : names) {
                     cacheName(clazz, n);  // 缓存到 `cachedNames`
                     saveInExtensionClass(extensionClasses, clazz, n);   // 缓存拓展实现类到 `extensionClasses`
