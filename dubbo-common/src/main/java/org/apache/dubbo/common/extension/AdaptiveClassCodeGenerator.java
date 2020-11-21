@@ -196,10 +196,10 @@ public class AdaptiveClassCodeGenerator {
      * generate method content
      */
     private String generateMethodContent(Method method) {
-        Adaptive adaptiveAnnotation = method.getAnnotation(Adaptive.class);
+        Adaptive adaptiveAnnotation = method.getAnnotation(Adaptive.class); // 判断是否为adaptive的子类
         StringBuilder code = new StringBuilder(512);
         if (adaptiveAnnotation == null) {
-            return generateUnsupported(method);
+            return generateUnsupported(method); // 生成一个普通的类
         } else {
             int urlTypeIndex = getUrlTypeIndex(method);
 
